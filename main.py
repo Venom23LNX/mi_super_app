@@ -3,26 +3,25 @@ import flet as ft
 def main(page: ft.Page):
     # --- Configuración Visual de la App ---
     page.title = "Mi App Interactiva"
-    page.vertical_alignment = ft.MainAxisAlignment.CENTER
-    page.horizontal_alignment = ft.CrossAxisAlignment.CENTER
-    page.theme_mode = ft.ThemeMode.LIGHT
+    page.vertical_alignment = "center"
+    page.horizontal_alignment = "center"
+    page.theme_mode = "light"
     page.padding = 30
-    page.bgcolor = ft.colors.GREY_50
+    page.bgcolor = "#F5F5F5" # Sustituido ft.colors.GREY_50
 
     # --- Variables de "Estado" ---
-    # Usamos una lista para el contador para evitar problemas de "nonlocal"
     estado = {"contador": 0}
 
     # --- Elementos de la Interfaz ---
-    # Eliminado el texto de "¡Funciona en!" y dejado solo el saludo
-    texto_titulo = ft.Text("¡Bienvenido!", size=32, weight="bold", color=ft.colors.BLUE)
+    # Eliminado el texto de "¡Funciona en!" y usado color como texto
+    texto_titulo = ft.Text("¡Bienvenido!", size=32, weight="bold", color="blue")
     
     entrada_nombre = ft.TextField(
         label="Escribe tu nombre aquí",
         width=300,
         border_radius=15,
-        prefix_icon=ft.icons.PERSON,
-        text_align=ft.TextAlign.CENTER
+        prefix_icon="person", # Usado nombre del icono como texto
+        text_align="center"
     )
     
     texto_clicks = ft.Text("Interacciones: 0", size=14, weight="w500")
@@ -33,24 +32,24 @@ def main(page: ft.Page):
         
         if entrada_nombre.value:
             texto_titulo.value = f"¡Hola, {entrada_nombre.value}!"
-            texto_titulo.color = ft.colors.GREEN
+            texto_titulo.color = "green"
             entrada_nombre.error_text = None
         else:
             texto_titulo.value = "¡Bienvenido de nuevo!"
-            texto_titulo.color = ft.colors.BLUE
+            texto_titulo.color = "blue"
             entrada_nombre.error_text = "Escribe un nombre"
         
         texto_clicks.value = f"Interacciones: {estado['contador']}"
         page.update()
 
-    # --- Botón con estilo ---
+    # --- Botón con estilo (Corregido para evitar errores) ---
     boton_principal = ft.ElevatedButton(
         text="Actualizar App",
-        icon=ft.icons.PLAY_CIRCLE_FILL,
+        icon="play_circle_fill",
         on_click=ejecutar_accion,
         style=ft.ButtonStyle(
-            color=ft.colors.WHITE,
-            bgcolor=ft.colors.BLUE_700,
+            color="white",
+            bgcolor="blue700",
         )
     )
 
@@ -65,7 +64,7 @@ def main(page: ft.Page):
                 ft.Divider(height=20, color="transparent"),
                 texto_clicks,
             ],
-            horizontal_alignment=ft.CrossAxisAlignment.CENTER,
+            horizontal_alignment="center",
             spacing=10
         )
     )

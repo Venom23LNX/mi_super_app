@@ -1,83 +1,64 @@
 import flet as ft
 
 def main(page: ft.Page):
-    # --- Configuración Visual de la App ---
-    page.title = "Mi App Interactiva Flet"
+    # Configuración de la página (Tu estilo original)
+    page.title = "Mi App Multiplataforma Fusionada"
     page.vertical_alignment = ft.MainAxisAlignment.CENTER
     page.horizontal_alignment = ft.CrossAxisAlignment.CENTER
     page.theme_mode = ft.ThemeMode.LIGHT
-    page.window_width = 400  # Tamaño ideal para probar en PC
-    page.bgcolor = ft.colors.GREY_50
 
-    # --- Variables de "Estado" (Datos que cambian) ---
+    # --- Variables ---
     contador = 0
 
-    # --- Elementos de la Interfaz ---
-    texto_titulo = ft.Text("¡Bienvenido!", size=32, weight="bold", color="blue")
+    # --- Elementos Visuales ---
+    # Empezamos con tu texto original
+    texto = ft.Text("¡Bienvenido a mi App!", size=30, weight="bold")
     
+    # Campo para escribir (Nueva función)
     entrada_nombre = ft.TextField(
-        label="Escribe tu nombre aquí",
-        width=300,
-        border_radius=15,
-        prefix_icon=ft.icons.PERSON
+        label="Escribe tu nombre", 
+        width=300, 
+        border_radius=10,
+        hint_text="Ej: Juan"
     )
-    
-    texto_info = ft.Text("Haz clic en el botón para interactuar", size=16, italic=True)
-    texto_clicks = ft.Text("Clics totales: 0", size=14, weight="w500")
 
-    # --- Lógica de la App (Qué pasa al pulsar) ---
-    def ejecutar_accion(e):
+    # Texto secundario para el contador
+    texto_contador = ft.Text("Clics realizados: 0", size=16, color="grey")
+
+    # --- Función de Lógica (Tu función original evolucionada) ---
+    def al_hacer_clic(e):
         nonlocal contador
         contador += 1
         
-        # Si el usuario escribió algo, lo saludamos por su nombre
+        # 1. Mantiene tu mensaje original al hacer clic
+        texto.value = "¡Funciona en Ubuntu y Móvil! 🚀"
+        texto.color = "blue"
+        
+        # 2. Si hay un nombre, personaliza el saludo
         if entrada_nombre.value:
-            texto_titulo.value = f"¡Hola, {entrada_nombre.value}!"
-            texto_titulo.color = "green"
-            entrada_nombre.error_text = None
-        else:
-            # Si está vacío, mostramos un error
-            texto_titulo.value = "¡Escribe algo!"
-            texto_titulo.color = "red"
-            entrada_nombre.error_text = "Campo obligatorio"
+            texto.value = f"¡Hola {entrada_nombre.value}! Funciona en Móvil 🚀"
         
-        texto_clicks.value = f"Clics totales: {contador}"
+        # 3. Actualiza el contador
+        texto_contador.value = f"Clics realizados: {contador}"
         
-        # ¡Muy importante! Actualizar la pantalla para que el móvil lo vea
         page.update()
 
-    # --- Botón con estilo ---
-    boton_principal = ft.ElevatedButton(
-        text="Actualizar App",
-        icon=ft.icons.PLAY_CIRCLE_FILL,
-        on_click=ejecutar_accion,
-        style=ft.ButtonStyle(
-            color=ft.colors.WHITE,
-            bgcolor=ft.colors.BLUE_700,
-            padding=20
-        )
-    )
+    # Botón (Tu botón original con la nueva lógica)
+    boton = ft.ElevatedButton("Haz clic aquí", on_click=al_hacer_clic)
 
-    # --- Montar la App (Columnas y Filas) ---
+    # --- Añadir elementos (Tu estructura de filas, pero organizada) ---
     page.add(
-        ft.Container(
-            content=ft.Column(
-                [
-                    texto_titulo,
-                    ft.Divider(height=20, color="transparent"),
-                    entrada_nombre,
-                    boton_principal,
-                    ft.Divider(height=20, color="transparent"),
-                    texto_info,
-                    texto_clicks,
-                ],
-                horizontal_alignment=ft.CrossAxisAlignment.CENTER,
-                spacing=10
-            ),
-            padding=30,
-            alignment=ft.alignment.center
+        ft.Column(
+            [
+                ft.Row([texto], alignment=ft.MainAxisAlignment.CENTER),
+                ft.Row([entrada_nombre], alignment=ft.MainAxisAlignment.CENTER),
+                ft.Row([boton], alignment=ft.MainAxisAlignment.CENTER),
+                ft.Row([texto_contador], alignment=ft.MainAxisAlignment.CENTER),
+            ],
+            horizontal_alignment=ft.CrossAxisAlignment.CENTER,
+            spacing=20
         )
     )
 
-# Lanzamiento de la app
+# Ejecución
 ft.app(target=main)

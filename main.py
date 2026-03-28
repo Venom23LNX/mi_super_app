@@ -2,46 +2,32 @@ import flet as ft
 
 def main(page: ft.Page):
     # 1. Configuración de la página
-    page.title = "Mi App Profesional"
+    page.title = "App Final Corregida"
     page.vertical_alignment = "center"
     page.horizontal_alignment = "center"
     page.theme_mode = "light"
-    page.padding = 30
+    page.bgcolor = "#F0F2F5"
     
-    # Color de fondo suave para que se vea mejor
-    page.bgcolor = "#f0f2f5"
-    
-    # Variables de la app (Estado)
+    # Estado de la aplicación
     estado = {"contador": 0}
 
-    # 2. Elementos de la interfaz
-    texto_bienvenida = ft.Text(
-        value="¡Bienvenido!", 
-        size=35, 
-        weight="bold", 
-        color="blue"
-    )
+    # 2. Creación de componentes
+    texto_bienvenida = ft.Text(value="¡Bienvenido!", size=30, weight="bold", color="blue")
     
     entrada_nombre = ft.TextField(
         label="Escribe tu nombre",
-        width=300,
-        border_radius=15,
+        width=280,
+        border_radius=10,
         text_align="center",
         bgcolor="white"
     )
 
-    texto_stats = ft.Text(
-        value="Interacciones: 0", 
-        size=14, 
-        color="grey"
-    )
+    texto_stats = ft.Text(value="Interacciones: 0", size=16, color="grey")
 
-    # 3. Lógica de la aplicación
-    def al_pulsar_boton(e):
-        # Aumentar contador
+    # 3. Lógica de funcionamiento
+    def al_clic(e):
         estado["contador"] += 1
         
-        # Lógica de saludo
         if entrada_nombre.value:
             texto_bienvenida.value = f"Hola, {entrada_nombre.value}"
             texto_bienvenida.color = "green"
@@ -49,37 +35,40 @@ def main(page: ft.Page):
             texto_bienvenida.value = "¡Hola de nuevo!"
             texto_bienvenida.color = "blue"
             
-        # Actualizar texto de contador
         texto_stats.value = f"Interacciones: {estado['contador']}"
-        
-        # Refrescar la pantalla
         page.update()
 
-    # --- BOTÓN CORREGIDO ---
-    # Usamos Elevated Button con "text" en minúsculas
-    boton_accion = ft.ElevatedButton(
-        text="Actualizar",
-        icon="play_arrow",
-        on_click=al_pulsar_boton
-    )
+    # --- SOLUCIÓN AL ERROR DEL BOTÓN ---
+    # Creamos el botón y luego asignamos sus propiedades por separado 
+    # para evitar cualquier error de "keyword argument"
+    boton_accion = ft.ElevatedButton()
+    boton_accion.text = "Actualizar App"
+    boton_accion.icon = "play_arrow"
+    boton_accion.on_click = al_clic
 
-    # 4. Montar la interfaz
-    # Usamos un Column para organizar todo verticalmente
+    # 4. Montaje de la interfaz
+    # Usamos un contenedor para darle un aspecto de "tarjeta"
     page.add(
-        ft.Column(
-            [
-                texto_bienvenida,
-                ft.Container(height=10), # Espaciador
-                entrada_nombre,
-                boton_accion,
-                ft.Container(height=10), # Espaciador
-                texto_stats,
-            ],
-            horizontal_alignment="center",
-            spacing=15
+        ft.Container(
+            content=ft.Column(
+                controls=[
+                    texto_bienvenida,
+                    ft.Divider(height=10, color="transparent"),
+                    entrada_nombre,
+                    boton_accion,
+                    ft.Divider(height=10, color="transparent"),
+                    texto_stats,
+                ],
+                horizontal_alignment="center",
+                spacing=10
+            ),
+            padding=40,
+            bgcolor="white",
+            border_radius=20,
+            shadow=ft.BoxShadow(blur_radius=15, color="grey")
         )
     )
 
-# Lanzamiento oficial
+# Ejecución
 if __name__ == "__main__":
     ft.app(target=main)

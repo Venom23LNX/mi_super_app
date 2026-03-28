@@ -1,64 +1,69 @@
 import flet as ft
 
 def main(page: ft.Page):
-    # Configuración de la página (Tu estilo original)
-    page.title = "Mi App Multiplataforma Fusionada"
+    # Configuración de la página
+    page.title = "Mi App Profesional"
     page.vertical_alignment = ft.MainAxisAlignment.CENTER
     page.horizontal_alignment = ft.CrossAxisAlignment.CENTER
     page.theme_mode = ft.ThemeMode.LIGHT
-
-    # --- Variables ---
-    contador = 0
-
-    # --- Elementos Visuales ---
-    # Empezamos con tu texto original
-    texto = ft.Text("¡Bienvenido a mi App!", size=30, weight="bold")
+    page.padding = 30
     
-    # Campo para escribir (Nueva función)
+    # Color principal de la app
+    page.theme = ft.Theme(color_scheme_seed=ft.colors.BLUE)
+
+    # --- Elementos de la interfaz ---
+    # Ya no hay "¡Funciona en!", solo un saludo elegante
+    texto_principal = ft.Text("¡Bienvenido!", size=35, weight="bold", color="blue_700")
+    
     entrada_nombre = ft.TextField(
-        label="Escribe tu nombre", 
-        width=300, 
-        border_radius=10,
-        hint_text="Ej: Juan"
+        label="Escribe tu nombre",
+        width=300,
+        border_radius=15,
+        text_align=ft.TextAlign.CENTER,
+        on_submit=lambda _: al_pulsar(None) # Permite dar al 'Enter' en el teclado
     )
 
-    # Texto secundario para el contador
-    texto_contador = ft.Text("Clics realizados: 0", size=16, color="grey")
+    texto_contador = ft.Text("Has interactuado 0 veces", size=14, color="grey_600")
+    
+    contador = 0
 
-    # --- Función de Lógica (Tu función original evolucionada) ---
-    def al_hacer_clic(e):
+    # --- Lógica ---
+    def al_pulsar(e):
         nonlocal contador
         contador += 1
         
-        # 1. Mantiene tu mensaje original al hacer clic
-        texto.value = "¡Funciona en Ubuntu y Móvil! 🚀"
-        texto.color = "blue"
-        
-        # 2. Si hay un nombre, personaliza el saludo
         if entrada_nombre.value:
-            texto.value = f"¡Hola {entrada_nombre.value}! Funciona en Móvil 🚀"
-        
-        # 3. Actualiza el contador
-        texto_contador.value = f"Clics realizados: {contador}"
-        
+            texto_principal.value = f"Hola, {entrada_nombre.value}"
+            texto_principal.color = "green_700"
+        else:
+            texto_principal.value = "¡Hola de nuevo!"
+            texto_principal.color = "blue_700"
+            
+        texto_contador.value = f"Has interactuado {contador} veces"
         page.update()
 
-    # Botón (Tu botón original con la nueva lógica)
-    boton = ft.ElevatedButton("Haz clic aquí", on_click=al_hacer_clic)
+    # Botón más moderno
+    boton = ft.FilledButton(
+        "Actualizar",
+        icon=ft.icons.CHEVRON_RIGHT,
+        on_click=al_pulsar,
+        style=ft.ButtonStyle(shape=ft.RoundedRectangleBorder(radius=10))
+    )
 
-    # --- Añadir elementos (Tu estructura de filas, pero organizada) ---
+    # --- Diseño Final ---
     page.add(
         ft.Column(
             [
-                ft.Row([texto], alignment=ft.MainAxisAlignment.CENTER),
-                ft.Row([entrada_nombre], alignment=ft.MainAxisAlignment.CENTER),
-                ft.Row([boton], alignment=ft.MainAxisAlignment.CENTER),
-                ft.Row([texto_contador], alignment=ft.MainAxisAlignment.CENTER),
+                texto_principal,
+                ft.Divider(height=20, color="transparent"), # Espacio invisible
+                entrada_nombre,
+                boton,
+                ft.Divider(height=10, color="transparent"),
+                texto_contador,
             ],
             horizontal_alignment=ft.CrossAxisAlignment.CENTER,
-            spacing=20
+            spacing=15
         )
     )
 
-# Ejecución
 ft.app(target=main)

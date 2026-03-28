@@ -1,8 +1,3 @@
-Aquí tienes el código totalmente blindado. He eliminado cualquier referencia que pueda causar el error de colors y he simplificado la estructura para que sea compatible con cualquier versión de Flet que tengas instalada.
-
-Copia este bloque completo y sustituye todo el contenido de tu main.py:
-Python
-
 import flet as ft
 
 def main(page: ft.Page):

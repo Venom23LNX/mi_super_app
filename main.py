@@ -8,38 +8,38 @@ def main(page: ft.Page):
     page.theme_mode = ft.ThemeMode.LIGHT
     page.padding = 30
     
-    # Color principal de la app
-    page.theme = ft.Theme(color_scheme_seed=ft.colors.BLUE)
+    # Color principal de la app (Usando string directo para evitar errores)
+    page.theme = ft.Theme(color_scheme_seed="blue")
 
     # --- Elementos de la interfaz ---
-    # Ya no hay "¡Funciona en!", solo un saludo elegante
-    texto_principal = ft.Text("¡Bienvenido!", size=35, weight="bold", color="blue_700")
+    texto_principal = ft.Text("¡Bienvenido!", size=35, weight="bold", color="blue700")
     
     entrada_nombre = ft.TextField(
         label="Escribe tu nombre",
         width=300,
         border_radius=15,
         text_align=ft.TextAlign.CENTER,
-        on_submit=lambda _: al_pulsar(None) # Permite dar al 'Enter' en el teclado
     )
 
-    texto_contador = ft.Text("Has interactuado 0 veces", size=14, color="grey_600")
+    texto_contador = ft.Text("Has interactuado 0 veces", size=14, color="grey600")
     
-    contador = 0
+    # Variable para el contador
+    page.session.set("contador", 0)
 
     # --- Lógica ---
     def al_pulsar(e):
-        nonlocal contador
-        contador += 1
+        # Obtener y actualizar el contador de la sesión
+        count = page.session.get("contador") + 1
+        page.session.set("contador", count)
         
         if entrada_nombre.value:
             texto_principal.value = f"Hola, {entrada_nombre.value}"
-            texto_principal.color = "green_700"
+            texto_principal.color = "green700"
         else:
             texto_principal.value = "¡Hola de nuevo!"
-            texto_principal.color = "blue_700"
+            texto_principal.color = "blue700"
             
-        texto_contador.value = f"Has interactuado {contador} veces"
+        texto_contador.value = f"Has interactuado {count} veces"
         page.update()
 
     # Botón más moderno
@@ -55,7 +55,7 @@ def main(page: ft.Page):
         ft.Column(
             [
                 texto_principal,
-                ft.Divider(height=20, color="transparent"), # Espacio invisible
+                ft.Divider(height=20, color="transparent"), 
                 entrada_nombre,
                 boton,
                 ft.Divider(height=10, color="transparent"),

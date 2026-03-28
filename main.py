@@ -8,11 +8,13 @@ def main(page: ft.Page):
     page.theme_mode = "light"
     page.padding = 30
     
+    # Color de fondo suave para que se vea mejor
+    page.bgcolor = "#f0f2f5"
+    
     # Variables de la app (Estado)
-    # Usamos un diccionario para que Python lo maneje de forma estable
     estado = {"contador": 0}
 
-    # 2. Elementos de la interfaz (Usamos nombres de colores como texto)
+    # 2. Elementos de la interfaz
     texto_bienvenida = ft.Text(
         value="¡Bienvenido!", 
         size=35, 
@@ -25,6 +27,7 @@ def main(page: ft.Page):
         width=300,
         border_radius=15,
         text_align="center",
+        bgcolor="white"
     )
 
     texto_stats = ft.Text(
@@ -52,14 +55,16 @@ def main(page: ft.Page):
         # Refrescar la pantalla
         page.update()
 
-    # Botón principal
+    # --- BOTÓN CORREGIDO ---
+    # Usamos Elevated Button con "text" en minúsculas
     boton_accion = ft.ElevatedButton(
         text="Actualizar",
         icon="play_arrow",
-        on_click=al_pulsar_boton,
+        on_click=al_pulsar_boton
     )
 
     # 4. Montar la interfaz
+    # Usamos un Column para organizar todo verticalmente
     page.add(
         ft.Column(
             [
@@ -75,6 +80,6 @@ def main(page: ft.Page):
         )
     )
 
-# Ejecutar la aplicación
+# Lanzamiento oficial
 if __name__ == "__main__":
     ft.app(target=main)
